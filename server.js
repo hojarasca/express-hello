@@ -3,7 +3,7 @@ var app = express();
 
 // Routes
 app.get('/', function(req, res) {
-  res.send('Hello World 3! Self deployed! 2');
+  res.send('Hello World 3! Self deployed! With encoded key!');
 });
 
 // Listen
