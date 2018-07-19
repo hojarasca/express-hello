@@ -23,8 +23,8 @@ after_success:
 - npm run generateDeployFile
 - sudo curl -o ./ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
 - sudo chmod +x ./ecs-cli
-- "./ecs-cli compose down"
-- "./ecs-cli compose up"
+- "./ecs-cli compose service down --region us-east-2"
+- "./ecs-cli compose service up --region us-east-2"
 env:
   global:
     - "ECS_CLUSTER=pruebita-6"
