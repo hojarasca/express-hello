@@ -12,7 +12,7 @@ after_success:
 - export PATH=$PATH:$HOME/.local/bin
 - echo $AWS_ACCESS_KEY_ID
 - echo $AWS_SECRET_ACCESS_KEY
-- echo $FOO
+- echo $qopnEDEMr0
 - eval $(aws ecr get-login --no-include-email --region us-east-2)
 - docker build -t express-hello .
 - docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
