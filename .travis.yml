@@ -4,28 +4,31 @@ services:
 - docker
 node_js:
 - 8.11.3
+
+env:
+  global:
+    - "ECS_CLUSTER=pruebita-6"
+    - "AWS_REGION=ue-east-2"
+
 script:
 - npm run test
 after_success:
 - docker --version
 - pip install --user awscli
 - export PATH=$PATH:$HOME/.local/bin
-- echo $AWS_ACCESS_KEY_ID
-- echo $AWS_SECRET_ACCESS_KEY
-- echo $qopnEDEMr0
-- eval $(aws ecr get-login --no-include-email --region us-east-2)
-- docker build -t express-hello .
-- docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
-- docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
-- docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
-- docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
 - export HELLO_IMAGE_VERSION=$TRAVIS_COMMIT
 - npm run generateDeployFile
 - sudo curl -o ./ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
 - sudo chmod +x ./ecs-cli
-- "./ecs-cli compose service down --region us-east-2"
-- "./ecs-cli compose service up --region us-east-2"
-env:
-  global:
-    - "ECS_CLUSTER=pruebita-6"
-    - "AWS_REGION=ue-east-2"
+
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_dffae4db4f69_key -iv $encrypted_dffae4db4f69_iv -in migue-admin-ssh.pem.enc -out migue-admin-ssh.pem -d
+
+
+deploy:
+  - provider: script
+    script: bash ./deploy/create_docker_image.sh
+    on: master
+  - provider: script
+    script: ssh -i "migue-admin-ssh.pem" ubuntu@ec2-18-188-240-88.us-east-2.compute.amazonaws.com ./deploy.sh
+    on: master
