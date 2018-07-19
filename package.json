@@ -11,6 +11,7 @@
     "express": "4.16.3"
   },
   "devDependencies": {
-    "envsub": "3.1.0"
+    "envsub": "3.1.0",
+    "node-cipher": "^6.3.3"
   }
 }
