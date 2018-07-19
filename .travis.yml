@@ -28,5 +28,5 @@ deploy:
     script: bash ./deploy/create_docker_image.sh
     on: master
   - provider: script
-    script: ssh -i "ci-key.pem" ubuntu@ec2-18-188-240-88.us-east-2.compute.amazonaws.com ./deploy.sh
+    script: chmod 600 ci-key.pem && ssh -i "ci-key.pem" ubuntu@ec2-18-188-240-88.us-east-2.compute.amazonaws.com ./deploy.sh
     on: master
