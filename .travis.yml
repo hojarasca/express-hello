@@ -2,7 +2,7 @@ sudo: required
 language: node_js
 env:
   global:
-    secure: W6/JCyfWHABH3WIDucXjzTYlduR0BLbvED/J3c665BKP7S2O8I6JhajlRUEx1B5fyDOhCBs1SvNxshLAOmTfx6aF9Eq7+vkXBQu4St+B7jT8EwJB4Y0CWE7lFSZupz7c8CL2lb9K01Ay/7tHWhUzB10W8TYIJ3JAVWiO/HAb6jscT5p/EU0QGvwUcdk0ImSpIxKbc4iKqBOXImxpgr7D9vfKG+PvMOznNStxi/0VrVPZLJZxH34qIU9BiBUw+/RbiJV5Xxaf1E0f6esUT52rLhd7jz7QD/aB27+aqkZn08kfG7KMtV/yX0G2a/MDRdc9V/lvOEopWlqwVZY2x67cTgPx4sAF/vTAEnRuwdQJ6SgqrBSAo+lw4fyLPuUh0J0qH2rpG3qH5kHfZJ/e1CH8iyFip6wX/U1OAduZx4myLfQzZQ/A60irMX2AfD3hUTVAxa+33/zyxX92i/8MyXnpIU+qa1FC0aUOcap+cNinACUNh8+i+Nox5u54EvFzBaarAXulNy835sDC6AffMtCU15NdOrlKGTwjIQouGR4LChQWf6GR+vvxnxGPyaTeudC367zsusx3kN1vR6zIF/9V7aqggvbR+55lE66pGa85ZRv3qiNCrfSR3P36o12CkuqtWFQqlCoUfy8Mn640KuPZwi3nuhHHDb8EJ9h+ZHA4iKQ=
+    secure: b/CGw4SXe8WHvD9hdMZcEmOqsAc0xaM3t5hCjq+haeLNifgCbU00TWsnChQu4tKMHtCr1RKl59wZl8H/qKuPqH7b2eh4kylp/XDUN4iXYTGQWbTdId7Ma41dd6W/4JirJZF1xP/UN3TKS2RmJ3lF2W8+rJms941kmi5alxCbLIYewBNnnRZdcMHXDqprrjbali/jUNLab7d2fxWGyr+fLi4qS9e4ICG0nFbw1+goQsQY5dIY+bzI/fq/AmPUaYl70bnC9JfY1T9oUWYxMqUjPEcMf0uROFhpmj79le9JtbjBzsoIaTAcouBtdMMnMFUfEmOZj+SjDyFCuR6jEXwZRYnBsTSTwPTAy0ujY78/0ZWOKLG/b6f+/VKMAMXO+SFzkt1fbsXZCkOdesEpcOmvikzol7i0oaKzb3c7JaKXZinwqsHWCW3oIuNrq1JFZorg46l+sCUby7pacae6HUupNEM7Jped1uk9/k+PhmFzLgxVFVEoVk5208LjUlt6kEcZz+Il+ayw59zLqNuE0aXjQG1ip9OMUGQnjkYKQJiJRyK58v4FTZ8hi88jD3FiOQkmXi2EUDYRV9zZHahZ/Y0hCIB+CkqvnmTgtkhkLSGa+afUOirN7uiBgzKT02hYFIx3f8sSYN/LwWdkVxqTr/KbJMtIWYIpRfs20GXmgAHa5p0=
 services:
 - docker
 node_js:
@@ -15,6 +15,7 @@ after_success:
 - export PATH=$PATH:$HOME/.local/bin
 - echo $AWS_ACCESS_KEY_ID
 - echo $AWS_SECRET_ACCESS_KEY
+- echo $MY_SECRET_ENV
 - eval $(aws ecr get-login --no-include-email --region us-east-2)
 - docker build -t express-hello .
 - docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
