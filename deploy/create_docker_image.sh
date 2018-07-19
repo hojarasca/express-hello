@@ -6,3 +6,4 @@ docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/exp
 docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
 docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
 docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
+echo "Image pushed succesfully!"
