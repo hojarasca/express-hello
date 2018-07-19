@@ -5,6 +5,9 @@ services:
 node_js:
 - 8.11.3
 
+addons:
+  ssh_known_hosts: ec2-18-188-240-88.us-east-2.compute.amazonaws.com
+
 env:
   global:
     - "ECS_CLUSTER=pruebita-6"
@@ -18,8 +21,6 @@ after_success:
 - export PATH=$PATH:$HOME/.local/bin
 - export HELLO_IMAGE_VERSION=$TRAVIS_COMMIT
 - npm run generateDeployFile
-- sudo curl -o ./ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
-- sudo chmod +x ./ecs-cli
 
 
 deploy:
