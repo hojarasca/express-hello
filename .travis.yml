@@ -20,9 +20,9 @@ after_success:
 - docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
 - docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
 - export HELLO_IMAGE_VERSION=$TRAVIS_COMMIT
-- node run generateDeployFile
+- npm run generateDeployFile
 - sudo curl -o ./ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
-- chmod +x ./ecs-cli
+- sudo chmod +x ./ecs-cli
 - "./ecs-cli compose down"
 - "./ecs-cli compose up"
 env:
