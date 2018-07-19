@@ -1,36 +1,30 @@
 sudo: required
 language: node_js
-
+services:
+- docker
+node_js:
+- 8.11.3
+script:
+- npm run test
+after_success:
+- docker --version
+- pip install --user awscli
+- export PATH=$PATH:$HOME/.local/bin
+- echo $AWS_ACCESS_KEY_ID
+- echo $AWS_SECRET_ACCESS_KEY
+- echo $FOO
+- eval $(aws ecr get-login --no-include-email --region us-east-2)
+- docker build -t express-hello .
+- docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
+- docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
+- docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
+- docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
+- export HELLO_IMAGE_VERSION=$TRAVIS_COMMIT
+- node run generateDeployFile
+- sudo curl -o ./ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+- chmod +x ./ecs-cli
+- "./ecs-cli compose down"
+- "./ecs-cli compose up"
 env:
   global:
-    AWS_ACCESS_KEY_ID: AKIAIPTBDX3T4GLIVGZA
-    AWS_SECRET_ACCESS_KEY: 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
-    ECS_CLUSTER: pruebita-6
-    AWS_REGION: ue-east-2
-
-services:
-  - docker
-
-node_js:
-  - "8.11.3"
-
-script:
-  - npm run test
-
-
-after_success:
-  - docker --version  # document the version travis is using
-  - pip install --user awscli # install aws cli w/o sudo
-  - export PATH=$PATH:$HOME/.local/bin # put aws in the path
-  - eval $(aws ecr get-login --region us-east-1) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
-  - docker build -t express-hello .
-  - docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
-  - docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
-  - docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
-  - docker push 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
-  - export HELLO_IMAGE_VERSION=$TRAVIS_COMMIT
-  - node run generateDeployFile
-  - sudo curl -o ./ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
-  - chmod +x ./ecs-cli
-  - ./ecs-cli compose down
-  - ./ecs-cli compose up
+    secure: 1W5bPPmHFQRCNQiv190BEHlq30GPfRIYZa5RAzEwuTkyQZlhoDY2nikbX0c/Iu2YIgIL3YX/ik3JRXFOyDb/eeA4R1lwmqPQjqdi9KMCrrDbZX0K6ruwSSiVbbHQrf/9DOvmkRRuOvj6XLcaOlgtAXg90ypzzf+bnYG0UECklRtVcLjtPFzJ5I+5aZj/HLALdflQxiJRW2QyE4V53q5AQRYXlL2WTsMoNWrYVyNbDLH91naYcjN+6+RAMDw8thfFlTRTOFeyPhTkPrHMycTv9j9BnEn8C/Oym03yIUUhb36d5Fq0IGhsRZEEJa88vrUOcMgcif8cWGsKYvwpj4bLtwtnkGRdVYr8KPB25Kj3tnByV+QXziV6RfckahIDVBF/d2M+7TaYmtolvlJZSg6XXIl9JARlHwyt8xjHD0g8iHi1nPiNcVIUvSxxTst3tok1GBlMfHCUO3gRamVbCZn4Mn+VwN9lF1qytjyRmc6xVrCc5u7rOmKFNGbmEgpj+HeC3ozD0O5ohHaUFgqGywURn7fdVwmwX91/BQccAf+P8GKOvhNIzfzX6qBaa4PqqTuv76JW5HdRIEbgFEH5Au7EcoO++zGRtkiiYBBX6dw7p/KUvq/Iur4PSsrzGEXk0kUvJM+VMN+FURWBBdAltH1BTDYmM03EFAIHO33b2VbArug=
