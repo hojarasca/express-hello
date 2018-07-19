@@ -1,0 +1,17 @@
+version: '3'
+services:
+  hello:
+    image: 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
+    ports:
+      - '3000:3000'
+  proxy:
+    image: 412237081001.dkr.ecr.us-east-2.amazonaws.com/proxy-magico:latest
+    ports:
+      - '80:80'
+    links:
+      - hello
+    environment:
+      UI_HOST: "hello"
+      UI_PORT: "3000"
+      IFRAME_HOST: "hello"
+      IFRAME_PORT: "3000"
