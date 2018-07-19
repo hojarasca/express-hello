@@ -22,7 +22,9 @@ after_success:
   - docker --version  # document the version travis is using
   - pip install --user awscli # install aws cli w/o sudo
   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
-  - eval $(aws ecr get-login --region us-east-1) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
+  - echo $AWS_ACCESS_KEY_ID
+  - echo $AWS_SECRET_ACCESS_KEY
+  - eval $(aws ecr get-login --region us-east-2) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
   - docker build -t express-hello .
   - docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:$TRAVIS_COMMIT
   - docker tag express-hello:latest 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
