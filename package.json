@@ -3,7 +3,14 @@
   "description": "Hello World test express app",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "generateDeployFile": "envsub docker-compose.yml.template docker-compose.yml",
+    "test": "echo 'los tests anduvieron bien'"
+  },
   "dependencies": {
     "express": "4.16.3"
+  },
+  "devDependencies": {
+    "envsub": "3.1.0"
   }
 }

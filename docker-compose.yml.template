@@ -1,7 +1,7 @@
 version: '3'
 services:
   hello:
-    image: 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:latest
+    image: 412237081001.dkr.ecr.us-east-2.amazonaws.com/express-hello:${HELLO_IMAGE_VERSION}
     ports:
       - '3000:3000'
   proxy:
